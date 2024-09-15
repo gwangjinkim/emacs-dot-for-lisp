@@ -1,0 +1,364 @@
+
+
+#+STARTUP: overview hidestars indent align inlineimages
+
+* Settings
+  
+#+BEGIN_SRC emacs-lisp
+    (setq inhibit-startup-message t)
+    (tool-bar-mode -1)
+
+    ;; maximize window
+    (global-set-key (kbd "C-c M") 'toggle-frame-maximized)
+
+    (defun enlarge-my-window (&optional height-increase-lines width-increase-columns)
+      "Resize the current window. Default: height by 10 lines and width by 20 columns.
+       You can specify custom values for both height and width."
+      (interactive
+       (list
+        (read-number "Increase height by (lines): " 10)  ;; Default is 10
+        (read-number "Increase width by (columns): " 20)))  ;; Default is 20
+      ;; Apply height and width increases
+      (enlarge-window height-increase-lines)
+      ;; (enlarge-window-horizontally width-increase-columns)
+      (enlarge-window width-increase-columns t))
+
+    (global-set-key (kbd "C-c w") 'enlarge-my-window)
+
+    ;; for a nice color theme
+    (use-package sweet-theme
+      :ensure t
+      :init
+      (load-theme 'sweet t))
+
+    (use-package doom-modeline
+      :ensure t
+      :hook
+      (after-init . doom-modeline-mode))
+#+END_SRC
+
+
+* Try
+
+#+BEGIN_SRC emacs-lisp
+  (use-package try
+    :ensure t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :ensure t
+    :config
+    (which-key-mode)
+    (setq which-key-separator " → " )
+    (setq which-key-prefix-prefix "+"))
+#+END_SRC
+
+
+* Ido mode
+
+Using swiper comment it out!
+#+BEGIN_SRC emacs-lisp
+  ;; (setq ido-enable-flex-matching t)
+  ;; (setq ido-everywhere t)
+  ;; (ido-mode 1)				
+#+END_SRC
+
+* Ibuffer
+
+#+BEGIN_SRC emacs-lisp
+  (defalias 'list-buffers 'ibuffer) ; make ibuffer default
+  (defalias 'list-buffers 'ibuffer-other-window) ; make ibuffer default open in another window
+#+END_SRC
+
+* Tabbar
+
+#+BEGIN_SRC emacs-lisp
+  (use-package tabbar
+    :ensure t
+    :config
+    (tabbar-mode 1))
+#+END_SRC
+
+* Window moves
+
+** Windmove
+Move by S-arrows between windows
+#+BEGIN_SRC emacs-lisp
+;; (windmove-default-keybindings)
+#+END_SRC
+
+
+** Winnermode
+Move via C-c left-right-arrow
+#+BEGIN_SRC emacs-lisp
+;; (winner-mode 1)
+#+END_SRC
+
+** Ace-window
+   Still uses C-x o.
+
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window
+    :ensure t
+    :bind (("M-o" . ace-window))
+    :init
+    (progn
+      (global-set-key [remap other-window] 'ace-window)
+      (custom-set-faces
+       '(aw-leading-char-face
+         ((t (:inherit ace-jump-face-foreground :height 3.0)))))))
+#+END_SRC
+
+* Counsel
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel
+    :ensure t)
+#+END_SRC
+
+* Swiper
+  For better searches
+
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper
+    :ensure try
+    :config
+    (progn
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (global-set-key "\C-s" 'swiper)
+      (global-set-key (kbd "C-c C-r") 'ivy-resume)
+      (global-set-key (kbd "<f6>") 'ivy-resume)
+      (global-set-key (kbd "M-x") 'counsel-M-x)
+      (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+      (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+      (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+      (global-set-key (kbd "<f1> l") 'counsel-load-library)
+      (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+      (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+      (global-set-key (kbd "C-c g") 'counsel-git)
+      (global-set-key (kbd "C-c j") 'counsel-git-grep)
+      (global-set-key (kbd "C-c k") 'counsel-ag)
+      (global-set-key (kbd "C-x l") 'counsel-locate)
+      (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+      (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
+#+END_SRC
+
+  if using swiper, comment out ido.
+  
+* Navigation with Avy
+
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :ensure t
+    :bind
+    ("M-s" . avy-goto-char))
+#+END_SRC
+
+They recommend `:config (avy-setup-default)
+
+* Autocomplete
+
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-complete
+    :ensure t
+    :init
+    (progn
+      (ac-config-default)
+      (global-auto-complete-mode t)))
+#+END_SRC
+
+
+* Org stuff
+#+BEGIN_SRC emacs-lisp
+;; (add-to-list 'load-path (expand-file-name "~/src/lisp") t)
+;; (add-to-list 'load-path (expand-file-name "~/path/to/orgdir/contrib/lisp") t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+      (use-package org-bullets
+        :ensure t
+        :config
+        (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+        (setq org-adapt-indentation t) ;; align text to header's start
+        )
+#+END_SRC
+
+** Org-babel-execute
+#+BEGIN_SRC emacs-lisp
+              ;; (require 'org)
+              ;; (require 'ob)
+
+              ;; (require 'ob-clojure)
+              ;; (setq org-babel-clojure-backend 'cider)
+
+              (org-babel-do-load-languages
+               'org-babel-load-languages
+               '((python . t)
+                 (R . t)
+                 (lisp . t)
+                 (clojure . t)
+                 (js . t)
+                 (typescript . t)))
+
+              ;; stop emacs asking for confirmation
+              (setq org-confirm-babel-evaluate nil)
+
+#+END_SRC
+
+#+RESULTS:
+
+User `:result pp` to get value and output 
+in one go and functioning correct.
+value e.g. didn't work - no newline inbetween
+results!
+
+** Ox-reveal
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-reveal
+    :ensure ox-reveal)
+
+  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+  (setq org-reveal-mathjax t)
+
+  (use-package htmlize
+    :ensure t)
+#+END_SRC
+
+** Org-Roam
+#+BEGIN_SRC emacs-lisp
+  ;; (add-to-list 'package-archives
+  ;;              (cons "gnu-devel" "https://elpa.gnu.org/devel/")
+  ;;              t)
+
+  ;; (use-package org-roam
+  ;;  :ensure t)
+
+  ;; (use-package org-roam
+  ;;   :ensure t
+  ;;   :custom
+  ;;   (org-roam-directory "~/RoamNotes")
+  ;;   (org-roam-completion-everywhere t)
+  ;;   :bind (("C-c n l" . org-roam-buffer-toggle)
+  ;;          ("C-c n f" . org-roam-node-find)
+  ;;          ("C-c n i" . org-roam-node-insert)
+  ;;          :map org-mode-map
+  ;;          ("C-M-i"   . completion-at-point))
+  ;;   :config (org-roam-setup))
+#+END_SRC
+
+* Undo tree
+
+#+BEGIN_SRC emacs-lisp
+  ;; (use-package undo-tree
+  ;;   :ensure t
+  ;;   :init
+  ;;   (global-undo-tree-mode))  ;; erroneus package!
+#+END_SRC
+
+Basic emacs undo and redo is C-/ and C-_
+Undo tree you can bring up with C-x u
+
+* Yasnippet
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :init
+    (yas-global-mode 1))
+#+END_SRC
+
+* Git
+#+begin_src elisp
+  ;; Git integration for emacs
+  (use-package magit
+    :ensure t
+    :bind (("C-x g" . magit-status)))
+#+end_src
+* Common Lisp
+#+BEGIN_SRC elisp
+  ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  ;; ;; Replace "sbcl" with the path to your implementation
+  ;; (setq inferior-lisp-program "/usr/bin/sbcl")
+
+#+END_SRC
+* Common Lisp Roswell
+#+BEGIN_SRC emacs-lisp
+  ;; for slime
+
+  (defun system-ram-size-in-mb ()
+    "Return the system RAM size in megabytes, platform-independent."
+    (interactive)
+    (let ((ram-size-command
+           (cond
+            ((eq system-type 'darwin) "sysctl -n hw.memsize")
+            ((eq system-type 'gnu/linux) "grep MemTotal /proc/meminfo | awk '{print $2 * 1024}'")
+            ((eq system-type 'windows-nt) "wmic computersystem get TotalPhysicalMemory /Value | findstr TotalPhysicalMemory="))))
+      (let ((output (shell-command-to-string ram-size-command)))
+        (if output
+            (/ (string-to-number (string-trim (cadr (split-string output "=")))) 
+               (* 1024 1024))
+          (error "Failed to get system RAM size")))))
+
+  (defun string-trim (str)
+    "Trim leading and trailing whitespace from STR."
+    (replace-regexp-in-string "\\`[ \t\n\r]+" "" (replace-regexp-in-string "[ \t\n\r]+\\'" "" str)))
+
+
+(use-package sly
+  :ensure t
+  :config
+  ;; Roswell is installed and available in Linux, and will be used with CCL64
+  (cond
+   ;; macOS and Linux settings, loading Roswell helper
+   ((or (eq system-type 'darwin) (eq system-type 'gnu/linux))
+    (load (expand-file-name "~/.roswell/helper.el"))
+    ;; Set Roswell to use dynamic space size based on system RAM and run
+    (setq inferior-lisp-program (concat "ros -Q dynamic-space-size="
+                                        (number-to-string (system-ram-size-in-mb))
+                                        " run")))
+   ;; Windows-specific settings if needed in the future
+   ((eq system-type 'windows-nt)
+    (load (concat (getenv "USERPROFILE") "\\quicklisp\\slime-helper.el"))
+    (setq inferior-lisp-program (concat "sbcl --dynamic-space-size "
+                                        (number-to-string (system-ram-size-in-mb)))))
+   (t
+    (error "Failed to load helper.el")))
+
+  ;; SLY contribs, equivalent to slime-fancy and slime-cl-indent
+  (setq sly-contribs '(sly-fancy sly-cl-indent))
+
+  ;; Ensure correct indentation (e.g., for the loop form)
+  (add-to-list 'sly-contribs 'sly-cl-indent)
+
+  ;; Don't use tabs for indentation
+  (setq-default indent-tabs-mode nil))
+
+      ;; (define-key sly-db-mode-map (kbd "C-c C-s") 'my-sly-step-display-value)
+
+  (use-package company
+    :ensure t
+    :config
+    (setq company-minimum-prefix-length 2)
+    (setq company-idle-delay 0.1)
+    (setq company-tooltip-align-annotations t)
+    :hook
+    ((racket-mode . company-mode)
+     (racket-repl-mode . company-mode)))
+
+  (use-package rainbow-delimiters
+    :ensure t
+    :hook
+    ((racket-mode . rainbow-delimiters-mode)
+     (racket-repl-mode . rainbow-delimiters-mode)))
+
+  (use-package paredit
+    :ensure t
+    :hook
+    ((racket-mode . paredit-mode)
+     (racket-repl-mode . paredit-mode)))
+#+end_src
+
