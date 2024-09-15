@@ -172,10 +172,6 @@ They recommend `:config (avy-setup-default)
 
 
 * Org stuff
-#+BEGIN_SRC emacs-lisp
-;; (add-to-list 'load-path (expand-file-name "~/src/lisp") t)
-;; (add-to-list 'load-path (expand-file-name "~/path/to/orgdir/contrib/lisp") t)
-#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
       (use-package org-bullets
@@ -188,20 +184,11 @@ They recommend `:config (avy-setup-default)
 
 ** Org-babel-execute
 #+BEGIN_SRC emacs-lisp
-              ;; (require 'org)
-              ;; (require 'ob)
 
-              ;; (require 'ob-clojure)
-              ;; (setq org-babel-clojure-backend 'cider)
 
               (org-babel-do-load-languages
                'org-babel-load-languages
-               '((python . t)
-                 (R . t)
-                 (lisp . t)
-                 (clojure . t)
-                 (js . t)
-                 (typescript . t)))
+               '((lisp . t)))
 
               ;; stop emacs asking for confirmation
               (setq org-confirm-babel-evaluate nil)
@@ -226,28 +213,6 @@ results!
 
   (use-package htmlize
     :ensure t)
-#+END_SRC
-
-** Org-Roam
-#+BEGIN_SRC emacs-lisp
-  ;; (add-to-list 'package-archives
-  ;;              (cons "gnu-devel" "https://elpa.gnu.org/devel/")
-  ;;              t)
-
-  ;; (use-package org-roam
-  ;;  :ensure t)
-
-  ;; (use-package org-roam
-  ;;   :ensure t
-  ;;   :custom
-  ;;   (org-roam-directory "~/RoamNotes")
-  ;;   (org-roam-completion-everywhere t)
-  ;;   :bind (("C-c n l" . org-roam-buffer-toggle)
-  ;;          ("C-c n f" . org-roam-node-find)
-  ;;          ("C-c n i" . org-roam-node-insert)
-  ;;          :map org-mode-map
-  ;;          ("C-M-i"   . completion-at-point))
-  ;;   :config (org-roam-setup))
 #+END_SRC
 
 * Undo tree
@@ -278,13 +243,7 @@ Undo tree you can bring up with C-x u
     :ensure t
     :bind (("C-x g" . magit-status)))
 #+end_src
-* Common Lisp
-#+BEGIN_SRC elisp
-  ;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  ;; ;; Replace "sbcl" with the path to your implementation
-  ;; (setq inferior-lisp-program "/usr/bin/sbcl")
 
-#+END_SRC
 * Common Lisp Roswell
 #+BEGIN_SRC emacs-lisp
   ;; for slime
