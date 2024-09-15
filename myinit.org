@@ -203,17 +203,7 @@ value e.g. didn't work - no newline inbetween
 results!
 
 
-* Undo tree
 
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package undo-tree
-  ;;   :ensure t
-  ;;   :init
-  ;;   (global-undo-tree-mode))  ;; erroneus package!
-#+END_SRC
-
-Basic emacs undo and redo is C-/ and C-_
-Undo tree you can bring up with C-x u
 
 * Yasnippet
 
