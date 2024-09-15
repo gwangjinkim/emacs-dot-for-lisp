@@ -7,9 +7,9 @@
 ;;; code:
 (setq package-enable-at-startup nil)
 (setq package-archives '())
-(add-to-list 'package-archives '("elpa"      . "http://elpa.gnu.org/packages/") t) ;; beware "https://url-to-sth/" it has to end with '/'!
+(add-to-list 'package-archives '("elpa"      . "https://elpa.gnu.org/packages/") t) ;; beware "https://url-to-sth/" it has to end with '/'!
 ;; (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/") t)
-(add-to-list 'package-archives '("melpa"     . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa"     . "https://melpa.org/packages/") t)
 ;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 ;; M-x package-refresh-contents
 (package-initialize)
