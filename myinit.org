@@ -31,10 +31,10 @@
       :init
       (load-theme 'sweet t))
 
-    (use-package doom-modeline
-      :ensure t
-      :hook
-      (after-init . doom-modeline-mode))
+    ;; (use-package doom-modeline
+    ;;   :ensure t
+    ;;   :hook
+    ;;   (after-init . doom-modeline-mode))
 #+END_SRC
 
 
